@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.wallettracker.ui.main.MainFragment"
+        android:label="Dashboard">
+        <action
+            android:id="@+id/action_mainFragment_to_insertSpendActivity"
+            app:destination="@id/insertSpendActivity"/>
+        <action
+            android:id="@+id/action_mainFragment_to_newGoalActivity"
+            app:destination="@id/newGoalActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/insertSpendActivity"
+        android:name="com.example.wallettracker.ui.spend.insertspend.InsertSpendActivity"
+        android:label="activity_insert_spend"
+        tools:layout="@layout/activity_insert_spend" />
+    <activity
+        android:id="@+id/newGoalActivity"
+        android:name="com.example.wallettracker.ui.goals.newgoal.NewGoalActivity"
+        android:label="NewGoalActivity" />
+</navigation>

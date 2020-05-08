@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="date"
+            type="java.util.Date" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:text="@string/submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/submitButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.spend.insertspend.InsertSpendFragment">
+            <EditText
+                android:id="@+id/commentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/comment_hint"
+                android:importantForAutofill="no"
+                android:inputType="text"/>
+            <EditText
+                android:id="@+id/amountEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/spend_amount_hint"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="0dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="3dp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    app:dateTimeOneLine="@{date}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/changeDateButton"
+                    app:layout_constraintEnd_toStartOf="@+id/changeDateButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="23/2/1999 12:56 PM" />
+
+                <Button
+                    android:id="@+id/changeDateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/change_button"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioGroup
+                android:id="@+id/importanceRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/veryImportantCheckBox"
+                        android:text="@string/very_important"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:checked="true"/>
+                    <RadioButton
+                        android:id="@+id/avgImportanceCheckBox"
+                        android:text="@string/average_importance"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/notImportantCheckBox"
+                        android:text="@string/not_important"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+            </RadioGroup>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

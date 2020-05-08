@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.wallettracker.database.GoalEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="@{data.name}"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Save for wedding" />
+
+                <androidx.gridlayout.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:columnCount="2">
+
+                    <TextView
+                        app:date="@{data.start}"
+                        app:layout_column="0"
+                        app:layout_columnWeight="1"
+                        tools:text="3/2/2020" />
+
+                    <TextView
+                        android:gravity="end"
+                        app:date="@{data.end}"
+                        app:layout_column="1"
+                        app:layout_columnWeight="1"
+                        tools:text="23/2/2020" />
+                </androidx.gridlayout.widget.GridLayout>
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="@{data.percent}"
+                    tools:progress="27" />
+
+                <androidx.gridlayout.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:columnCount="2">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_column="0"
+                        app:layout_columnWeight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/goal_achieved"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{String.format(@string/money_amount_view, data.achieved)}"
+                            tools:text="2700 EGP" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_column="1"
+                        app:layout_columnWeight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/goal_target"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{String.format(@string/money_amount_view, data.amount)}"
+                            tools:text="10000 EGP" />
+                    </LinearLayout>
+                </androidx.gridlayout.widget.GridLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.format(@string/money_amount_view, data.dailyAmount)}"
+                        android:textSize="17sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/moneyColor"
+                        tools:text="1000 EGP" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goal_per_day"
+                        android:textSize="17sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
