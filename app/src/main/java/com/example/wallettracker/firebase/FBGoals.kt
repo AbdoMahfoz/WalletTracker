@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.wallettracker.entities.GoalEntity
 import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.IGoalsRepository
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.*
@@ -12,8 +13,11 @@ import kotlinx.coroutines.tasks.await
 
 class FBGoals : FB(), IGoalsRepository {
     private val goalEntities = MutableLiveData<List<GoalEntity>>()
-    init {
-        db.collection("goals").addSnapshotListener{ snapshot, e ->
+    override fun clearLiveData() {
+        goalEntities.value = listOf()
+    }
+    override fun setListener(): ListenerRegistration? {
+        return db.collection("goals").addSnapshotListener{ snapshot, e ->
             if(e == null && snapshot != null){
                 uiScope.launch {
                     val items = mutableListOf<GoalEntity>()
