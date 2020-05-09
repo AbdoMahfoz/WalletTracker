@@ -22,12 +22,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.goals.newgoal.NewGoalActivity"
+            tools:context=".ui.main.goals.newgoal.NewGoalActivity"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <fragment
                 android:id="@+id/newGoalFragment"
-                android:name="com.example.wallettracker.ui.goals.newgoal.NewGoalFragment"
+                android:name="com.example.wallettracker.ui.main.goals.newgoal.NewGoalFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="FragmentTagUsage"

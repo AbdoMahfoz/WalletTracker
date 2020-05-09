@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.spend.insertspend
+package com.example.wallettracker.ui.main.spend.insertspend
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog

@@ -32,7 +32,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".ui.spend.insertspend.InsertSpendFragment">
+            tools:context=".ui.main.spend.insertspend.InsertSpendFragment">
             <EditText
                 android:id="@+id/commentText"
                 android:layout_width="match_parent"

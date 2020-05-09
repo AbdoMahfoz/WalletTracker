@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.charts
+package com.example.wallettracker.ui.main.charts
 
 import android.graphics.Color
 import android.os.Bundle

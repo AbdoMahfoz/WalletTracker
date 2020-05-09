@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.goals
+package com.example.wallettracker.ui.main.goals
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

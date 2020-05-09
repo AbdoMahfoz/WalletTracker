@@ -30,6 +30,7 @@ class ViewModelFactory private constructor(private val application: Application)
             c.isAssignableFrom(GoalsViewModel::class.java) -> GoalsViewModel(application) as T
             c.isAssignableFrom(SpendViewModel::class.java) -> SpendViewModel(application) as T
             c.isAssignableFrom(ChartsViewModel::class.java) -> ChartsViewModel(application) as T
+            c.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(application) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }

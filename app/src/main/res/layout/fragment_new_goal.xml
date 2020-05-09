@@ -26,7 +26,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/submitButton"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".ui.goals.newgoal.NewGoalFragment">
+            tools:context=".ui.main.goals.newgoal.NewGoalFragment">
 
             <EditText
                 android:id="@+id/nameEditText"

@@ -5,10 +5,10 @@ package com.example.wallettracker
 import androidx.multidex.MultiDexApplication
 import com.example.wallettracker.firebase.FBGoals
 import com.example.wallettracker.firebase.FBSpend
+import com.example.wallettracker.logic.implementations.FirebaseAuth
+import com.example.wallettracker.logic.interfaces.IAuth
 import com.example.wallettracker.repository.IGoalsRepository
 import com.example.wallettracker.repository.ISpendRepository
-import com.example.wallettracker.room.wrappers.RoomGoalWrapper
-import com.example.wallettracker.room.wrappers.RoomSpendWrapper
 import com.example.wallettracker.worker.GoalsWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +24,7 @@ class WalletTrackerApplication : MultiDexApplication(), KodeinAware {
         bind<IGoalsRepository>() with singleton { RoomGoalWrapper(applicationContext) }*/
         bind<ISpendRepository>() with singleton { FBSpend() }
         bind<IGoalsRepository>() with singleton { FBGoals() }
+        bind<IAuth>() with singleton { FirebaseAuth() }
     }
     override fun onCreate() {
         super.onCreate()

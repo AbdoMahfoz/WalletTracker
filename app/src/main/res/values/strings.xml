@@ -21,4 +21,14 @@
     <string name="goal_per_day">\u0020per day</string>
     <string name="summary_last_month">Spending summary - This month</string>
     <string name="summary_all_time">Spending summary - All time</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="goal">Goal</string>
+    <string name="register">register</string>
+    <string name="error_login">Incorrect email or password</string>
+    <string name="error_register_email_exists">Unable to register because email already exists</string>
+    <string name="error_register_email_invalid">Please enter a valid email address</string>
+    <string name="error_register_password">Your password is too weak!</string>
+    <string name="logout">Logout</string>
 </resources>

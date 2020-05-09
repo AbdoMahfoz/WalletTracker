@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.spend
+package com.example.wallettracker.ui.main.spend
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

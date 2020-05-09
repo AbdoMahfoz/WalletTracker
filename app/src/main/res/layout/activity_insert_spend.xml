@@ -21,13 +21,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.spend.insertspend.InsertSpendActivity"
+            tools:context=".ui.main.spend.insertspend.InsertSpendActivity"
             android:padding="16dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <fragment
                 android:id="@+id/insertSpendFragment"
-                android:name="com.example.wallettracker.ui.spend.insertspend.InsertSpendFragment"
+                android:name="com.example.wallettracker.ui.main.spend.insertspend.InsertSpendFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="FragmentTagUsage"

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.wallettracker.ui.spend.SpendHistoryAdapterUtil.SpendHistoryData.HeaderItem" />
+            type="com.example.wallettracker.ui.main.spend.SpendHistoryAdapterUtil.SpendHistoryData.HeaderItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

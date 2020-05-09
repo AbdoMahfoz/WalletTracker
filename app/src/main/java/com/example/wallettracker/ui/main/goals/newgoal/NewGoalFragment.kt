@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.goals.newgoal
+package com.example.wallettracker.ui.main.goals.newgoal
 
 import android.app.DatePickerDialog
 import android.os.Bundle

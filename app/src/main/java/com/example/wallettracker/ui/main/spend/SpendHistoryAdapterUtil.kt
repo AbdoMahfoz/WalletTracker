@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.spend
+package com.example.wallettracker.ui.main.spend
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

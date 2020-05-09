@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.goals.newgoal
+package com.example.wallettracker.ui.main.goals.newgoal
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

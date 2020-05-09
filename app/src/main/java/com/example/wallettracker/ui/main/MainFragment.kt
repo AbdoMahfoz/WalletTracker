@@ -11,10 +11,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.wallettracker.R
-import com.example.wallettracker.ui.charts.ChartsViewFragment
+import com.example.wallettracker.ui.main.charts.ChartsViewFragment
 import com.example.wallettracker.databinding.FragmentMainBinding
-import com.example.wallettracker.ui.goals.GoalsViewFragment
-import com.example.wallettracker.ui.spend.SpendHistoryFragment
+import com.example.wallettracker.ui.main.goals.GoalsViewFragment
+import com.example.wallettracker.ui.main.spend.SpendHistoryFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 
