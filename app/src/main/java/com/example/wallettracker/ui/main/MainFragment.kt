@@ -1,41 +1,69 @@
 package com.example.wallettracker.ui.main
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.wallettracker.R
 import com.example.wallettracker.ui.main.charts.ChartsViewFragment
 import com.example.wallettracker.databinding.FragmentMainBinding
+import com.example.wallettracker.logic.interfaces.IAuth
 import com.example.wallettracker.ui.main.goals.GoalsViewFragment
 import com.example.wallettracker.ui.main.spend.SpendHistoryFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
 interface IFabConsumer {
     fun setupFab(fab : FloatingActionButton, navController: NavController)
 }
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), KodeinAware {
     private val frags = listOf(SpendHistoryFragment(), GoalsViewFragment(), ChartsViewFragment())
     private val fragNames = listOf("History", "Goal", "Summary")
 
+    override val kodein: Kodein by closestKodein()
+    private val auth by instance<IAuth>()
+
     private lateinit var binding : FragmentMainBinding
     private var lastFrag : IFabConsumer? = null
-    private val fab get() = (requireNotNull(this.activity) as MainActivity).getFab()
-    private val toolbar get() = (requireNotNull(this.activity) as MainActivity).getToolBar()
+    private lateinit var fab : FloatingActionButton
+    private lateinit var toolbar : Toolbar
+    private lateinit var nav : NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        fab = binding.mainFab
+        toolbar = binding.toolBar
+        nav = findNavController()
         fab.hide()
-        lastFrag?.run { setupFab(fab, findNavController()) }
+        (activity as MainActivity).setSupportActionBar(binding.toolBar)
+        lastFrag?.run { setupFab(fab, nav) }
+        NavigationUI.setupActionBarWithNavController(requireActivity() as MainActivity, nav)
+        setHasOptionsMenu(true)
         return binding.root
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logutMenuItem -> {
+                auth.logOut()
+                nav.navigate(MainFragmentDirections.actionMainFragmentToAuthActivity())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.pager.adapter = PageAdapter(childFragmentManager, frags, fragNames)
