@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.wallettracker.R
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.databinding.SpendHistoryHeaderBinding
 import com.example.wallettracker.databinding.SpendHistoryItemBinding
 import com.example.wallettracker.databinding.SpendHistoryItemGoalBinding
-import com.example.wallettracker.utils.BaseEntity
+import com.example.wallettracker.entities.BaseEntity
 import com.example.wallettracker.utils.GenericViewHolder
 import java.lang.Exception
 import java.util.*
 
 object SpendHistoryAdapterUtil{
-    abstract class SpendHistoryData : BaseEntity{
+    abstract class SpendHistoryData :
+        BaseEntity {
         data class SpendEntityItem(val spendEntity: SpendEntity) : SpendHistoryData() {
             override val id: String get() = spendEntity.id
         }

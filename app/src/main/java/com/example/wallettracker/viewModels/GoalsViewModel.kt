@@ -1,7 +1,9 @@
 package com.example.wallettracker.viewModels
 
 import android.app.Application
-import com.example.wallettracker.database.*
+import com.example.wallettracker.entities.GoalEntity
+import com.example.wallettracker.entities.SpendEntity.Important
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.IGoalsRepository
 import com.example.wallettracker.repository.ISpendRepository
 import kotlinx.coroutines.*

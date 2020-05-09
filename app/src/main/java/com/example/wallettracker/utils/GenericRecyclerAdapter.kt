@@ -8,15 +8,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wallettracker.entities.BaseEntity
 import java.io.InvalidObjectException
 
 interface ViewHolder<E> {
     fun bind(item: E)
 }
-interface BaseEntity {
-    val id : String
-    override fun equals(other: Any?) : Boolean
-}
+
 class GenericViewHolder<E : BaseEntity>(private val binding: ViewDataBinding)
     : RecyclerView.ViewHolder(binding.root),
     ViewHolder<E> {

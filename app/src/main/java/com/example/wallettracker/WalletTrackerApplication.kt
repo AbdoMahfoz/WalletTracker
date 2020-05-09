@@ -3,9 +3,12 @@
 package com.example.wallettracker
 
 import androidx.multidex.MultiDexApplication
+import com.example.wallettracker.firebase.FBGoals
+import com.example.wallettracker.firebase.FBSpend
 import com.example.wallettracker.repository.IGoalsRepository
 import com.example.wallettracker.repository.ISpendRepository
-import com.example.wallettracker.repository.implementations.*
+import com.example.wallettracker.room.wrappers.RoomGoalWrapper
+import com.example.wallettracker.room.wrappers.RoomSpendWrapper
 import com.example.wallettracker.worker.GoalsWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,12 +20,10 @@ import org.kodein.di.generic.singleton
 
 class WalletTrackerApplication : MultiDexApplication(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
-        /*
-        bind<ISpendRepository>() with singleton { SpendRepositoryDb(applicationContext) }
-        bind<IGoalsRepository>() with singleton { GoalsRepositoryDb(applicationContext) }
-        */
-        bind<ISpendRepository>() with singleton { FireBaseSpendRepository() }
-        bind<IGoalsRepository>() with singleton { FireBaseGoalsRepository() }
+        /*bind<ISpendRepository>() with singleton { RoomSpendWrapper(applicationContext) }
+        bind<IGoalsRepository>() with singleton { RoomGoalWrapper(applicationContext) }*/
+        bind<ISpendRepository>() with singleton { FBSpend() }
+        bind<IGoalsRepository>() with singleton { FBGoals() }
     }
     override fun onCreate() {
         super.onCreate()

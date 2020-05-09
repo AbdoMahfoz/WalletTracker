@@ -1,13 +1,9 @@
 package com.example.wallettracker.repository
 
 import androidx.lifecycle.LiveData
-import com.example.wallettracker.database.GoalEntity
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.GoalEntity
+import com.example.wallettracker.entities.SpendEntity
 
-interface ISpendRepository{
-    fun getHistory(): LiveData<List<SpendEntity>>
-    fun insert(spend: SpendEntity)
-}
 interface IGoalsRepository{
     fun getAll(): LiveData<List<GoalEntity>>
     fun getAllSync(): List<GoalEntity>

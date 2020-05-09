@@ -11,9 +11,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.example.wallettracker.R
-import com.example.wallettracker.database.GoalEntity
-import com.example.wallettracker.database.Important
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.GoalEntity
+import com.example.wallettracker.entities.SpendEntity.Important
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.IGoalsRepository
 import com.example.wallettracker.repository.ISpendRepository
 import com.example.wallettracker.ui.main.MainActivity

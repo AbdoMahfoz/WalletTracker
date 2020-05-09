@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 
 import com.example.wallettracker.R
-import com.example.wallettracker.database.GoalEntity
+import com.example.wallettracker.entities.GoalEntity
 import com.example.wallettracker.databinding.FragmentNewGoalBinding
 import com.example.wallettracker.viewModels.GoalsViewModel
 import com.example.wallettracker.viewModels.ViewModelFactory
@@ -26,12 +26,14 @@ class NewGoalFragment : Fragment() {
         binding.changeToButton.setOnClickListener { handleDateSelection(binding.toDate!!, binding::setToDate) }
         val viewModel = ViewModelFactory.of(this).get(GoalsViewModel::class.java)
         binding.submitButton.setOnClickListener {
-            viewModel.insert(GoalEntity(
-                name = binding.nameEditText.text.toString(),
-                start = binding.fromDate!!,
-                end = binding.toDate!!,
-                amount = binding.amountEditText.text.toString().toDouble()
-            ))
+            viewModel.insert(
+                GoalEntity(
+                    name = binding.nameEditText.text.toString(),
+                    start = binding.fromDate!!,
+                    end = binding.toDate!!,
+                    amount = binding.amountEditText.text.toString().toDouble()
+                )
+            )
             requireNotNull(activity).onBackPressed()
         }
         return binding.root

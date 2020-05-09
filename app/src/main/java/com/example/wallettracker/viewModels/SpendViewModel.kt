@@ -3,7 +3,7 @@ package com.example.wallettracker.viewModels
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.ISpendRepository
 import com.example.wallettracker.ui.spend.SpendHistoryAdapterUtil
 import kotlinx.coroutines.*

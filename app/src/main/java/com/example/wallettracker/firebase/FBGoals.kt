@@ -1,54 +1,16 @@
-package com.example.wallettracker.repository.implementations
+package com.example.wallettracker.firebase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.wallettracker.database.GoalEntity
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.GoalEntity
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.IGoalsRepository
-import com.example.wallettracker.repository.ISpendRepository
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
-sealed class FB {
-    protected val db = Firebase.firestore
-    private val job = Job()
-    protected val uiScope = CoroutineScope(Dispatchers.Main + job)
-}
-
-class FireBaseSpendRepository : FB(), ISpendRepository {
-    private val spendEntities = MutableLiveData<List<SpendEntity>>()
-    init {
-        db.collection("spends")
-          .orderBy("date", Query.Direction.DESCENDING).addSnapshotListener{ snapshot, e ->
-            if(e == null && snapshot != null){
-                uiScope.launch {
-                    val items = mutableListOf<SpendEntity>()
-                    withContext(Dispatchers.IO){
-                        for(item in snapshot) {
-                            items.add(item.toObject())
-                        }
-                    }
-                    spendEntities.value = items
-                }
-            }
-        }
-    }
-    override fun getHistory(): LiveData<List<SpendEntity>> = spendEntities
-    override fun insert(spend: SpendEntity) {
-        val doc = db.collection("spends").document()
-        spend.id = doc.id
-        runBlocking {
-            doc.set(spend).await()
-        }
-    }
-}
-
-class FireBaseGoalsRepository : FB(), IGoalsRepository {
+class FBGoals : FB(), IGoalsRepository {
     private val goalEntities = MutableLiveData<List<GoalEntity>>()
     init {
         db.collection("goals").addSnapshotListener{ snapshot, e ->

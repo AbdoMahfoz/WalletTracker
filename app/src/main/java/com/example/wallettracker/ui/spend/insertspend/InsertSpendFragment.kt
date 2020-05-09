@@ -11,8 +11,8 @@ import androidx.databinding.DataBindingUtil
 
 import com.example.wallettracker.R
 import com.example.wallettracker.viewModels.ViewModelFactory
-import com.example.wallettracker.database.Important
-import com.example.wallettracker.database.SpendEntity
+import com.example.wallettracker.entities.SpendEntity.Important
+import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.databinding.FragmentInsertSpendBinding
 import com.example.wallettracker.viewModels.SpendViewModel
 import java.util.*
@@ -49,16 +49,18 @@ class InsertSpendFragment : Fragment() {
     }
     private fun handleSubmit() {
         binding.submitButton.setOnClickListener{
-            viewModel.insertNewSpend(SpendEntity(
-                comment = binding.commentText.text.toString(),
-                amount = binding.amountEditText.text.toString().toDouble(),
-                date = spendDate.time,
-                importance = when {
-                    binding.veryImportantCheckBox.isChecked -> Important.VeryImportant
-                    binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
-                    else -> Important.NotImportant
-                }
-            ))
+            viewModel.insertNewSpend(
+                SpendEntity(
+                    comment = binding.commentText.text.toString(),
+                    amount = binding.amountEditText.text.toString().toDouble(),
+                    date = spendDate.time,
+                    importance = when {
+                        binding.veryImportantCheckBox.isChecked -> Important.VeryImportant
+                        binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
+                        else -> Important.NotImportant
+                    }
+                )
+            )
             //findNavController().popBackStack()
             requireNotNull(activity).onBackPressed()
         }

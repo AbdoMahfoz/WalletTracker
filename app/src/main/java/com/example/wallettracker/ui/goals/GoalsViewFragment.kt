@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 
 import com.example.wallettracker.R
-import com.example.wallettracker.database.GoalEntity
+import com.example.wallettracker.entities.GoalEntity
 import com.example.wallettracker.databinding.FragmentGoalsViewBinding
 import com.example.wallettracker.databinding.GoalItemBinding
 import com.example.wallettracker.ui.main.IFabConsumer

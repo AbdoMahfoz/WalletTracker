@@ -1,14 +1,19 @@
-package com.example.wallettracker.database
+package com.example.wallettracker.room
 
 import android.content.Context
 import androidx.room.*
+import com.example.wallettracker.room.dao.GoalDao
+import com.example.wallettracker.room.dao.SpendDao
+import com.example.wallettracker.entities.GoalEntity
+import com.example.wallettracker.entities.SpendEntity.Important
+import com.example.wallettracker.entities.SpendEntity
 import java.util.*
 
 @Database(entities = [SpendEntity::class, GoalEntity::class], version = 1, exportSchema = false)
 @TypeConverters(WalletDatabase.Converters::class)
 abstract class WalletDatabase : RoomDatabase() {
-    abstract val spendRepo : SpendRepo
-    abstract val goalRepo : GoalRepo
+    abstract val spendRepo : SpendDao
+    abstract val goalRepo : GoalDao
     companion object{
         @Volatile
         private var INSTANCE: WalletDatabase? = null
