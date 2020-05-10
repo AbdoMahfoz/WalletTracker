@@ -9,13 +9,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.wallettracker.R
-import com.example.wallettracker.ui.main.charts.ChartsViewFragment
+import com.example.wallettracker.ui.charts.ChartsViewFragment
 import com.example.wallettracker.databinding.FragmentMainBinding
 import com.example.wallettracker.logic.interfaces.IAuth
-import com.example.wallettracker.ui.main.goals.GoalsViewFragment
-import com.example.wallettracker.ui.main.spend.SpendHistoryFragment
+import com.example.wallettracker.ui.MainActivity
+import com.example.wallettracker.ui.goals.GoalsViewFragment
+import com.example.wallettracker.ui.spend.SpendHistoryFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import org.kodein.di.Kodein
@@ -48,7 +48,6 @@ class MainFragment : Fragment(), KodeinAware {
         fab.hide()
         (activity as MainActivity).setSupportActionBar(binding.toolBar)
         lastFrag?.run { setupFab(fab, nav) }
-        NavigationUI.setupActionBarWithNavController(requireActivity() as MainActivity, nav)
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -59,7 +58,7 @@ class MainFragment : Fragment(), KodeinAware {
         return when (item.itemId) {
             R.id.logutMenuItem -> {
                 auth.logOut()
-                nav.navigate(MainFragmentDirections.actionMainFragmentToAuthActivity())
+                nav.navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -89,20 +88,6 @@ class MainFragment : Fragment(), KodeinAware {
             lastFrag = consumer
         }
     }
-    /*
-    override fun onPause() {
-        super.onPause()
-        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
-        params.scrollFlags = 0
-        fab.hide()
-    }
-    override fun onResume() {
-        super.onResume()
-        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
-        params.scrollFlags =
-            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-    }
-    */
     class PageAdapter(fm: FragmentManager,
                       private val frags: List<Fragment>,
                       private val fragNames: List<String>)

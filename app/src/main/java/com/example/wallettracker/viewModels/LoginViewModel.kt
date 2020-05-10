@@ -33,10 +33,10 @@ class LoginViewModel(application: Application) : KodeinCoroutineViewModel(applic
             _registerResult.value = RegisterResult.Ok
             _loading.value = true
             val loggedIn = auth.logIn(email, password)
-            _loading.value = false
             if(loggedIn) {
                 _authComplete.value = true
             } else {
+                _loading.value = false
                 _isLoginErred.value = true
             }
         }
@@ -46,11 +46,12 @@ class LoginViewModel(application: Application) : KodeinCoroutineViewModel(applic
             _isLoginErred.value = false
             _registerResult.value = RegisterResult.Ok
             _loading.value = true
-            val registerResult = auth.register(email, password)
-            _loading.value = false
-            when (registerResult) {
+            when (val registerResult = auth.register(email, password)) {
                 RegisterResult.Ok -> _authComplete.value = true
-                else -> _registerResult.value = registerResult
+                else -> {
+                    _loading.value = false
+                    _registerResult.value = registerResult
+                }
             }
         }
     }

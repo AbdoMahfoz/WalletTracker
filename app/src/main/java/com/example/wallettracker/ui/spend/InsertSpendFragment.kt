@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.main.spend.insertspend
+package com.example.wallettracker.ui.spend
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 
 import com.example.wallettracker.R
 import com.example.wallettracker.viewModels.ViewModelFactory
 import com.example.wallettracker.entities.SpendEntity.Important
 import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.databinding.FragmentInsertSpendBinding
+import com.example.wallettracker.ui.MainActivity
 import com.example.wallettracker.viewModels.SpendViewModel
 import java.util.*
 
@@ -27,6 +29,9 @@ class InsertSpendFragment : Fragment() {
             inflater, R.layout.fragment_insert_spend, container, false
         )
         viewModel = ViewModelFactory.of(this).get(SpendViewModel::class.java)
+        val mainActivity = activity as MainActivity
+        mainActivity.setSupportActionBar(binding.toolBar)
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.date = spendDate.time
         handleDate()
         handleSubmit()
@@ -61,8 +66,8 @@ class InsertSpendFragment : Fragment() {
                     }
                 )
             )
-            //findNavController().popBackStack()
-            requireNotNull(activity).onBackPressed()
+            findNavController().popBackStack()
+            //requireNotNull(activity).onBackPressed()
         }
     }
 }

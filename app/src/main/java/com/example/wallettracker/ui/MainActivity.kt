@@ -1,19 +1,12 @@
-package com.example.wallettracker.ui.main
+package com.example.wallettracker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.wallettracker.R
-import com.example.wallettracker.logic.interfaces.IAuth
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
-import org.kodein.di.generic.instance
 
-class MainActivity : AppCompatActivity(), KodeinAware {
-    override val kodein: Kodein by closestKodein()
-    private val auth by instance<IAuth>()
+class MainActivity : AppCompatActivity() {
     private lateinit var nav : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {

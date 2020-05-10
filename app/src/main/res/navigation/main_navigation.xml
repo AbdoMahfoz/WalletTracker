@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_navigation"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/mainFragment">
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.wallettracker.ui.main.MainFragment"
-        android:label="Dashboard">
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_insertSpendActivity"
-            app:destination="@id/insertSpendActivity"/>
+            android:id="@+id/action_mainFragment_to_insertSpendFragment"
+            app:destination="@id/insertSpendFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_newGoalActivity"
-            app:destination="@id/newGoalActivity" />
+            android:id="@+id/action_mainFragment_to_newGoalFragment"
+            app:destination="@id/newGoalFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_authActivity"
-            app:destination="@id/authActivity"
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <activity
-        android:id="@+id/insertSpendActivity"
-        android:name="com.example.wallettracker.ui.main.spend.insertspend.InsertSpendActivity"
-        android:label="activity_insert_spend"
-        tools:layout="@layout/activity_insert_spend" />
-    <activity
-        android:id="@+id/newGoalActivity"
-        android:name="com.example.wallettracker.ui.main.goals.newgoal.NewGoalActivity"
-        android:label="NewGoalActivity"
-        tools:layout="@layout/fragment_new_goal"/>
-    <activity
-        android:id="@+id/authActivity"
-        android:name="com.example.wallettracker.ui.auth.AuthActivity"
-        android:label="AuthActivity" />
+    <fragment
+        android:id="@+id/insertSpendFragment"
+        android:name="com.example.wallettracker.ui.spend.InsertSpendFragment"
+        android:label="InsertSpendFragment"
+        tools:layout="@layout/fragment_insert_spend" />
+    <fragment
+        android:id="@+id/newGoalFragment"
+        android:name="com.example.wallettracker.ui.goals.NewGoalFragment"
+        android:label="NewGoalFragment"
+        tools:layout="@layout/fragment_new_goal" />
+    <fragment
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login"
+        android:name="com.example.wallettracker.ui.login.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

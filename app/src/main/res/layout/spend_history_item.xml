@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.wallettracker.ui.main.spend.SpendHistoryAdapterUtil.SpendHistoryData.SpendEntityItem" />
+            type="com.example.wallettracker.ui.spend.SpendHistoryAdapterUtil.SpendHistoryData.SpendEntityItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

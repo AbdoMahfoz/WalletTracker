@@ -16,7 +16,7 @@ import com.example.wallettracker.entities.SpendEntity.Important
 import com.example.wallettracker.entities.SpendEntity
 import com.example.wallettracker.repository.IGoalsRepository
 import com.example.wallettracker.repository.ISpendRepository
-import com.example.wallettracker.ui.main.MainActivity
+import com.example.wallettracker.ui.MainActivity
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein

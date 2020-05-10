@@ -1,4 +1,4 @@
-package com.example.wallettracker.ui.main.goals.newgoal
+package com.example.wallettracker.ui.goals
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 
 import com.example.wallettracker.R
 import com.example.wallettracker.entities.GoalEntity
 import com.example.wallettracker.databinding.FragmentNewGoalBinding
+import com.example.wallettracker.ui.MainActivity
 import com.example.wallettracker.viewModels.GoalsViewModel
 import com.example.wallettracker.viewModels.ViewModelFactory
 import java.util.*
@@ -20,6 +22,9 @@ class NewGoalFragment : Fragment() {
         val binding : FragmentNewGoalBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_new_goal , container, false
         )
+        val mainActivity = activity as MainActivity
+        mainActivity.setSupportActionBar(binding.toolBar)
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.fromDate = Calendar.getInstance().time
         binding.toDate = Calendar.getInstance().time
         binding.changeFromButton.setOnClickListener { handleDateSelection(binding.fromDate!!, binding::setFromDate) }
@@ -34,7 +39,8 @@ class NewGoalFragment : Fragment() {
                     amount = binding.amountEditText.text.toString().toDouble()
                 )
             )
-            requireNotNull(activity).onBackPressed()
+            //requireNotNull(activity).onBackPressed()
+            findNavController().popBackStack()
         }
         return binding.root
     }

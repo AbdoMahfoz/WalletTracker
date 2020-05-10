@@ -1,10 +1,12 @@
-package com.example.wallettracker.ui.auth.login
+package com.example.wallettracker.ui.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,24 +27,23 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             if(it) {
-                binding.emailEditText.isEnabled = false
-                binding.passwordEditText.isEnabled = false
-                binding.loginButton.isEnabled = false
-                binding.registerButton.isEnabled = false
+                binding.emailEditText.visibility = View.GONE
+                binding.passwordEditText.visibility = View.GONE
+                binding.loginButton.visibility = View.GONE
+                binding.registerButton.visibility = View.GONE
                 binding.loadingIndicator.visibility = View.VISIBLE
             } else {
-                binding.emailEditText.isEnabled = true
-                binding.passwordEditText.isEnabled = true
-                binding.loginButton.isEnabled = true
-                binding.registerButton.isEnabled = true
+                binding.emailEditText.visibility = View.VISIBLE
+                binding.passwordEditText.visibility = View.VISIBLE
+                binding.loginButton.visibility = View.VISIBLE
+                binding.registerButton.visibility = View.VISIBLE
                 binding.loadingIndicator.visibility = View.GONE
             }
         })
         viewModel.authComplete.observe(viewLifecycleOwner, Observer {
             if(it != null) {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainActivity())
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
                 viewModel.authCompleteHandled()
-                activity?.finish()
             }
         })
         viewModel.isLoginErred.observe(viewLifecycleOwner, Observer {
@@ -72,12 +73,17 @@ class LoginFragment : Fragment() {
             }
         })
         binding.loginButton.setOnClickListener {
+            hideKeyboard()
             viewModel.logIn(binding.emailEditText.text.toString(), binding.passwordEditText.text.toString())
         }
         binding.registerButton.setOnClickListener {
+            hideKeyboard()
             viewModel.register(binding.emailEditText.text.toString(), binding.passwordEditText.text.toString())
         }
         return binding.root
     }
-
+    private fun hideKeyboard() {
+        val x : InputMethodManager? = getSystemService(requireContext(), InputMethodManager::class.java)
+        x?.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 }
