@@ -14,6 +14,7 @@ class LoginViewModel(application: Application) : KodeinCoroutineViewModel(applic
     private val _loading = MutableLiveData<Boolean>()
     private val _isLoginErred = MutableLiveData<Boolean>()
     private val _registerResult = MutableLiveData<RegisterResult>()
+    private var isReLogin: Boolean? = null
 
     val loading : LiveData<Boolean> get() = _loading
     val isLoginErred : LiveData<Boolean> get() = _isLoginErred
@@ -22,8 +23,9 @@ class LoginViewModel(application: Application) : KodeinCoroutineViewModel(applic
     val authComplete : LiveData<Boolean> get() = _authComplete
     fun authCompleteHandled() { _authComplete.value = null }
 
-    init {
-        if(auth.isLoggedIn()) {
+    fun handleIsReLogin(isReLogin: Boolean) {
+        this.isReLogin = isReLogin
+        if(!isReLogin && auth.isLoggedIn()) {
             _authComplete.value = true
         }
     }
@@ -32,7 +34,11 @@ class LoginViewModel(application: Application) : KodeinCoroutineViewModel(applic
             _isLoginErred.value = false
             _registerResult.value = RegisterResult.Ok
             _loading.value = true
-            val loggedIn = auth.logIn(email, password)
+            val loggedIn = if(isReLogin!!) {
+                auth.reLogIn(email, password)
+            } else {
+                auth.logIn(email, password)
+            }
             if(loggedIn) {
                 _authComplete.value = true
             } else {

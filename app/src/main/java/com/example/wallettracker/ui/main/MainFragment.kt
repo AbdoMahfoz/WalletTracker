@@ -61,6 +61,10 @@ class MainFragment : Fragment(), KodeinAware {
                 nav.navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
                 true
             }
+            R.id.editAccountMenuItem -> {
+                nav.navigate(MainFragmentDirections.actionMainFragmentToAccountFragment())
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

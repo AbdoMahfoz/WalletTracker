@@ -27,8 +27,12 @@
     <string name="goal">Goal</string>
     <string name="register">register</string>
     <string name="error_login">Incorrect email or password</string>
-    <string name="error_register_email_exists">Unable to register because email already exists</string>
+    <string name="error_register_email_exists">Email already exists</string>
     <string name="error_register_email_invalid">Please enter a valid email address</string>
     <string name="error_register_password">Your password is too weak!</string>
     <string name="logout">Logout</string>
+    <string name="edit">Edit</string>
+    <string name="new_password_hint">New password (unchanged)</string>
+    <string name="new_email_hint">New email address (unchanged)</string>
+    <string name="edit_account">Edit Account</string>
 </resources>
