@@ -9,7 +9,7 @@ import com.example.wallettracker.databinding.SpendHistoryHeaderBinding
 import com.example.wallettracker.databinding.SpendHistoryItemBinding
 import com.example.wallettracker.databinding.SpendHistoryItemGoalBinding
 import com.example.wallettracker.entities.BaseEntity
-import com.example.wallettracker.utils.GenericViewHolder
+import com.github.abdomahfoz.genericrecycleradapter.GenericViewHolder
 import java.lang.Exception
 import java.util.*
 
@@ -22,7 +22,7 @@ object SpendHistoryAdapterUtil{
         data class HeaderItem(val header: Date, override val id: String, var sum : Double = 0.0) : SpendHistoryData()
         abstract override val id : String
     }
-    private fun createSpendHistoryViewHolder(parent : ViewGroup) : GenericViewHolder<SpendHistoryData>{
+    private fun createSpendHistoryViewHolder(parent : ViewGroup) : GenericViewHolder<SpendHistoryData> {
         val binding: SpendHistoryItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), R.layout.spend_history_item, parent, false
         )

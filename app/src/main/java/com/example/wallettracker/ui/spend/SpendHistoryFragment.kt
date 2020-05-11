@@ -14,8 +14,8 @@ import com.example.wallettracker.viewModels.ViewModelFactory
 import com.example.wallettracker.databinding.FragmentSpendHistoryBinding
 import com.example.wallettracker.ui.main.IFabConsumer
 import com.example.wallettracker.ui.main.MainFragmentDirections
-import com.example.wallettracker.utils.GenericRecyclerAdapter
 import com.example.wallettracker.viewModels.SpendViewModel
+import com.github.abdomahfoz.genericrecycleradapter.GenericRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class SpendHistoryFragment : Fragment(), IFabConsumer {

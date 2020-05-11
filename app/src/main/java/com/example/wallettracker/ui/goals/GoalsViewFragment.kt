@@ -15,9 +15,9 @@ import com.example.wallettracker.databinding.FragmentGoalsViewBinding
 import com.example.wallettracker.databinding.GoalItemBinding
 import com.example.wallettracker.ui.main.IFabConsumer
 import com.example.wallettracker.ui.main.MainFragmentDirections
-import com.example.wallettracker.utils.GenericRecyclerAdapter
 import com.example.wallettracker.viewModels.GoalsViewModel
 import com.example.wallettracker.viewModels.ViewModelFactory
+import com.github.abdomahfoz.genericrecycleradapter.GenericRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class GoalsViewFragment : Fragment(), IFabConsumer {

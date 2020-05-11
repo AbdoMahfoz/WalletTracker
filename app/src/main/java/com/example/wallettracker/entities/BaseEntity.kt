@@ -1,6 +1,8 @@
 package com.example.wallettracker.entities
 
-interface BaseEntity {
-    val id : String
+import com.github.abdomahfoz.genericrecycleradapter.GenericRecyclerEntity
+
+interface BaseEntity : GenericRecyclerEntity {
+    override val id : String
     override fun equals(other: Any?) : Boolean
 }
