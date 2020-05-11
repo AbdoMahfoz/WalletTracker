@@ -3,21 +3,25 @@ package com.abdomahfoz.wallettracker.ui.spend
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-
 import com.abdomahfoz.wallettracker.R
-import com.abdomahfoz.wallettracker.viewModels.ViewModelFactory
-import com.abdomahfoz.wallettracker.entities.SpendEntity.Important
-import com.abdomahfoz.wallettracker.entities.SpendEntity
 import com.abdomahfoz.wallettracker.databinding.FragmentInsertSpendBinding
+import com.abdomahfoz.wallettracker.entities.SpendEntity
+import com.abdomahfoz.wallettracker.entities.SpendEntity.Important
 import com.abdomahfoz.wallettracker.ui.MainActivity
 import com.abdomahfoz.wallettracker.viewModels.SpendViewModel
+import com.abdomahfoz.wallettracker.viewModels.ViewModelFactory
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
+
 
 class InsertSpendFragment : Fragment() {
     private val spendDate = Calendar.getInstance()
@@ -35,6 +39,14 @@ class InsertSpendFragment : Fragment() {
         binding.date = spendDate.time
         handleDate()
         handleSubmit()
+        val mapFrag = childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
+        mapFrag?.getMapAsync{
+            it.apply {
+                val sydney = LatLng(-33.852, 151.211)
+                addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+                moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            }
+        }
         return binding.root
     }
     private fun handleDate() {
