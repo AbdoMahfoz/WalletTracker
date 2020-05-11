@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.wallettracker.ui.main.MainFragment"
+        android:name="com.abdomahfoz.wallettracker.ui.main.MainFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_main">
         <action
@@ -43,18 +43,18 @@
     </fragment>
     <fragment
         android:id="@+id/insertSpendFragment"
-        android:name="com.example.wallettracker.ui.spend.InsertSpendFragment"
+        android:name="com.abdomahfoz.wallettracker.ui.spend.InsertSpendFragment"
         android:label="InsertSpendFragment"
         tools:layout="@layout/fragment_insert_spend" />
     <fragment
         android:id="@+id/newGoalFragment"
-        android:name="com.example.wallettracker.ui.goals.NewGoalFragment"
+        android:name="com.abdomahfoz.wallettracker.ui.goals.NewGoalFragment"
         android:label="NewGoalFragment"
         tools:layout="@layout/fragment_new_goal" />
     <fragment
         android:id="@+id/loginFragment"
         tools:layout="@layout/fragment_login"
-        android:name="com.example.wallettracker.ui.login.LoginFragment"
+        android:name="com.abdomahfoz.wallettracker.ui.login.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
@@ -73,7 +73,7 @@
     <fragment
         android:id="@+id/accountFragment"
         tools:layout="@layout/fragment_account"
-        android:name="com.example.wallettracker.ui.account.AccountFragment"
+        android:name="com.abdomahfoz.wallettracker.ui.account.AccountFragment"
         android:label="AccountFragment" >
         <action
             android:id="@+id/action_accountFragment_to_loginFragment"
