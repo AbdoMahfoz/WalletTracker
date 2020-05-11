@@ -9,7 +9,7 @@ import com.abdomahfoz.wallettracker.entities.SpendEntity.Important
 import com.abdomahfoz.wallettracker.entities.SpendEntity
 import java.util.*
 
-@Database(entities = [SpendEntity::class, GoalEntity::class], version = 1, exportSchema = false)
+@Database(entities = [SpendEntity::class, GoalEntity::class], version = 2, exportSchema = false)
 @TypeConverters(WalletDatabase.Converters::class)
 abstract class WalletDatabase : RoomDatabase() {
     abstract val spendRepo : SpendDao

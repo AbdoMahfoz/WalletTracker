@@ -55,39 +55,38 @@ class InsertSpendFragment : Fragment() {
         return binding.root
     }
     private fun initMaps() {
-        mapFrag?.getMapAsync{
-            it.isMyLocationEnabled = true
-            it.isBuildingsEnabled = false
-            it.isIndoorEnabled = false
-            it.isTrafficEnabled = false
-            it.uiSettings.isMyLocationButtonEnabled = true
-            val fineAccess = ActivityCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-            val coarseAccess = ActivityCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-            if (!fineAccess && !coarseAccess) {
-                requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
-                    5000
-                )
-            } else {
+        val fineAccess = ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        val coarseAccess = ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        if (!fineAccess && !coarseAccess) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                5000
+            )
+        } else {
+            mapFrag?.getMapAsync{
+                it.isBuildingsEnabled = false
+                it.isIndoorEnabled = false
+                it.isTrafficEnabled = false
+                it.uiSettings.isMyLocationButtonEnabled = true
                 val lm : LocationManager? = getSystemService(requireContext(), LocationManager::class.java)
                 var currentMarker: Marker? = null
+                val lastLocation = lm?.getLastKnownLocation(lm.getBestProvider(Criteria(), false)!!)
                 it.apply {
-                    val lastLocation = lm?.getLastKnownLocation(lm.getBestProvider(Criteria(), false)!!)
                     if(lastLocation != null) {
                         val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
                         markerPosition = latLng
-                        currentMarker = addMarker(MarkerOptions().position(latLng).title("Your Location"))
+                        currentMarker = addMarker(MarkerOptions().position(latLng))
                         moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                     }
                     setOnCameraMoveListener {
                         markerPosition = it.cameraPosition.target
                         if(currentMarker == null) {
                             currentMarker = addMarker(
-                                MarkerOptions().position(it.cameraPosition.target).title("Your Location")
+                                MarkerOptions().position(it.cameraPosition.target)
                             )
                         } else {
                             currentMarker?.position = it.cameraPosition.target
@@ -97,7 +96,7 @@ class InsertSpendFragment : Fragment() {
                         markerPosition = clickLocation
                         currentMarker?.remove()
                         currentMarker = addMarker(
-                            MarkerOptions().position(clickLocation).title("Your Location")
+                            MarkerOptions().position(clickLocation)
                         )
                         moveCamera(CameraUpdateFactory.newLatLng(clickLocation))
                     }
@@ -108,7 +107,7 @@ class InsertSpendFragment : Fragment() {
                             val marker = LatLng(location.latitude, location.longitude)
                             markerPosition = marker
                             it.apply {
-                                currentMarker = addMarker(MarkerOptions().position(marker).title("Your Location"))
+                                currentMarker = addMarker(MarkerOptions().position(marker))
                                 moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
                             }
                         }
@@ -154,7 +153,9 @@ class InsertSpendFragment : Fragment() {
                         binding.veryImportantCheckBox.isChecked -> Important.VeryImportant
                         binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
                         else -> Important.NotImportant
-                    }
+                    },
+                    latitude = markerPosition.latitude,
+                    longitude = markerPosition.longitude
                 )
             )
             findNavController().popBackStack()
