@@ -3,6 +3,7 @@
     package="com.abdomahfoz.wallettracker">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name="com.abdomahfoz.wallettracker.WalletTrackerApplication"
@@ -24,6 +25,6 @@
         </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="valid-api-key-here" />
+            android:value="AIzaSyBYfe-21PGv-brPkv_aVHQtW_w8lCb1Tus" />
     </application>
 </manifest>
