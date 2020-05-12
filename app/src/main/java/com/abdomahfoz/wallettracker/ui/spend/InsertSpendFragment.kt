@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.abdomahfoz.wallettracker.R
 import com.abdomahfoz.wallettracker.databinding.FragmentInsertSpendBinding
 import com.abdomahfoz.wallettracker.entities.SpendEntity
@@ -40,16 +41,22 @@ class InsertSpendFragment : Fragment() {
     private var markerPosition: LatLng = LatLng(0.0, 0.0)
     private var locationRecorded: Boolean = false
     private var mapsInitialized: Boolean = false
-
+    private val args: InsertSpendFragmentArgs by navArgs()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_insert_spend, container, false
         )
         viewModel = ViewModelFactory.of(this).get(SpendViewModel::class.java)
         val mainActivity = activity as MainActivity
+        if(args.updateEntity != null) {
+            binding.toolBar.title = "Update existing transaction"
+            binding.entity = args.updateEntity
+            spendDate.time = args.updateEntity!!.date
+        } else {
+            binding.entity = SpendEntity(date = spendDate.time, importance = Important.VeryImportant)
+        }
         mainActivity.setSupportActionBar(binding.toolBar)
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.date = spendDate.time
         handleDate()
         handleSubmit()
         mapFrag = childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
@@ -91,22 +98,32 @@ class InsertSpendFragment : Fragment() {
                 var currentMarker: Marker? = null
                 val lastLocation = lm?.getLastKnownLocation(lm.getBestProvider(Criteria(), false)!!)
                 it.apply {
-                    if(lastLocation != null) {
-                        val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                    if(args.updateEntity == null || !args.updateEntity!!.locationRecorded) {
+                        if (lastLocation != null) {
+                            val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                            markerPosition = latLng
+                            currentMarker?.remove()
+                            currentMarker = addMarker(MarkerOptions().position(latLng))
+                            moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                        }
+                        /*
+                        setOnCameraMoveListener {
+                            markerPosition = it.cameraPosition.target
+                            if(currentMarker == null) {
+                                currentMarker = addMarker(
+                                    MarkerOptions().position(it.cameraPosition.target)
+                                )
+                            } else {
+                                currentMarker?.position = it.cameraPosition.target
+                            }
+                        }
+                        */
+                    } else {
+                        val latLng = LatLng(args.updateEntity!!.latitude, args.updateEntity!!.longitude)
                         markerPosition = latLng
                         currentMarker?.remove()
                         currentMarker = addMarker(MarkerOptions().position(latLng))
                         moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                    }
-                    setOnCameraMoveListener {
-                        markerPosition = it.cameraPosition.target
-                        if(currentMarker == null) {
-                            currentMarker = addMarker(
-                                MarkerOptions().position(it.cameraPosition.target)
-                            )
-                        } else {
-                            currentMarker?.position = it.cameraPosition.target
-                        }
                     }
                     setOnMapClickListener { clickLocation ->
                         markerPosition = clickLocation
@@ -117,21 +134,23 @@ class InsertSpendFragment : Fragment() {
                         moveCamera(CameraUpdateFactory.newLatLng(clickLocation))
                     }
                 }
-                lm?.requestSingleUpdate(Criteria(), object : LocationListener {
-                    override fun onLocationChanged(location: Location?) {
-                        if(location != null) {
-                            val marker = LatLng(location.latitude, location.longitude)
-                            markerPosition = marker
-                            it.apply {
-                                currentMarker = addMarker(MarkerOptions().position(marker))
-                                moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+                if(args.updateEntity == null || !args.updateEntity!!.locationRecorded) {
+                    lm?.requestSingleUpdate(Criteria(), object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
+                            if(location != null) {
+                                val marker = LatLng(location.latitude, location.longitude)
+                                markerPosition = marker
+                                it.apply {
+                                    currentMarker = addMarker(MarkerOptions().position(marker))
+                                    moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+                                }
                             }
                         }
-                    }
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-                    override fun onProviderEnabled(provider: String?) {}
-                    override fun onProviderDisabled(provider: String?) {}
-                }, Looper.myLooper())
+                        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                        override fun onProviderEnabled(provider: String?) {}
+                        override fun onProviderDisabled(provider: String?) {}
+                    }, Looper.myLooper())
+                }
             }
         }
     }
@@ -149,32 +168,36 @@ class InsertSpendFragment : Fragment() {
                 spendDate.set(Calendar.YEAR, year)
                 spendDate.set(Calendar.MONTH, month)
                 spendDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                binding.date = spendDate.time
+                binding.entity!!.date = spendDate.time
                 TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
                     spendDate.set(Calendar.HOUR_OF_DAY, hour)
                     spendDate.set(Calendar.MINUTE, minute)
-                    binding.date = spendDate.time
+                    binding.entity!!.date = spendDate.time
                 }, spendDate.get(Calendar.HOUR_OF_DAY), spendDate.get(Calendar.MINUTE), false).show()
             }, spendDate.get(Calendar.YEAR), spendDate.get(Calendar.MONTH), spendDate.get(Calendar.DAY_OF_MONTH)).show()
         }
     }
     private fun handleSubmit() {
         binding.submitButton.setOnClickListener{
-            viewModel.insertNewSpend(
-                SpendEntity(
-                    comment = binding.commentText.text.toString(),
-                    amount = binding.amountEditText.text.toString().toDouble(),
-                    date = spendDate.time,
-                    importance = when {
-                        binding.veryImportantCheckBox.isChecked -> Important.VeryImportant
-                        binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
-                        else -> Important.NotImportant
-                    },
-                    latitude = if (locationRecorded) markerPosition.latitude else 0.0,
-                    longitude = if (locationRecorded) markerPosition.longitude else 0.0,
-                    locationRecorded = this.locationRecorded
-                )
+            val entity = SpendEntity(
+                id = args.updateEntity?.id ?: "",
+                comment = binding.commentText.text.toString(),
+                amount = binding.amountEditText.text.toString().toDouble(),
+                date = spendDate.time,
+                importance = when {
+                    binding.veryImportantCheckBox.isChecked -> Important.VeryImportant
+                    binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
+                    else -> Important.NotImportant
+                },
+                latitude = if (locationRecorded) markerPosition.latitude else 0.0,
+                longitude = if (locationRecorded) markerPosition.longitude else 0.0,
+                locationRecorded = this.locationRecorded
             )
+            if(args.updateEntity != null){
+                viewModel.updateSpend(entity)
+            } else {
+                viewModel.insertNewSpend(entity)
+            }
             findNavController().popBackStack()
         }
     }

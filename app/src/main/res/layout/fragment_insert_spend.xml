@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="date"
-            type="java.util.Date" />
+            name="entity"
+            type="com.abdomahfoz.wallettracker.entities.SpendEntity" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,7 +21,7 @@
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:title="Insert new spend" />
+                app:title="Insert new transaction" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/comment_hint"
+                    android:text="@{entity.comment}"
                     android:importantForAutofill="no"
                     android:inputType="text" />
 
@@ -68,6 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/spend_amount_hint"
+                    android:text='@{(entity.amount != 0.0 ? Double.toString(entity.amount) : "")}'
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal" />
 
@@ -82,7 +83,7 @@
                         android:layout_marginStart="3dp"
                         android:gravity="start"
                         android:textStyle="bold"
-                        app:dateTimeOneLine="@{date}"
+                        app:dateTimeOneLine="@{entity.date}"
                         app:layout_constraintBaseline_toBaselineOf="@+id/changeDateButton"
                         app:layout_constraintEnd_toStartOf="@+id/changeDateButton"
                         app:layout_constraintStart_toStartOf="parent"
@@ -105,19 +106,22 @@
                         android:id="@+id/veryImportantCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
+                        android:checked="@{(entity.importance.ordinal() == 0)}"
+                        tools:checked="true"
                         android:text="@string/very_important" />
 
                     <RadioButton
                         android:id="@+id/avgImportanceCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="@{(entity.importance.ordinal() == 1)}"
                         android:text="@string/average_importance" />
 
                     <RadioButton
                         android:id="@+id/notImportantCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="@{(entity.importance.ordinal() == 2)}"
                         android:text="@string/not_important" />
                 </RadioGroup>
 
@@ -136,6 +140,7 @@
 
                     <Switch
                         android:id="@+id/recordLocationSwitch"
+                        android:checked="@{entity.locationRecorded}"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start" />
