@@ -22,7 +22,8 @@ data class SpendEntity(
     @ColumnInfo(index = true)
     var goalId : String? = null,
     var latitude: Double = 0.0,
-    var longitude: Double = 0.0
+    var longitude: Double = 0.0,
+    var locationRecorded: Boolean = false
 ) : BaseEntity {
     enum class Important(val value: String) {
         VeryImportant("Very Important"),

@@ -6,6 +6,7 @@ import com.abdomahfoz.wallettracker.entities.GoalEntity
 import com.abdomahfoz.wallettracker.entities.SpendEntity
 import com.abdomahfoz.wallettracker.repository.IGoalsRepository
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.*
@@ -42,7 +43,9 @@ class FBGoals : FB(), IGoalsRepository {
     override fun getLastSpendOfGoal(id: String): SpendEntity? {
         var res : SpendEntity? = null
         runBlocking {
-            val q = db.collection("spends").whereEqualTo("goalId", id).get().await()
+            val q = db.collection("spends")
+                        .whereEqualTo("goalId", id)
+                        .orderBy("date", Query.Direction.DESCENDING).get().await()
             if(q.isEmpty) {
                 res = null
             }

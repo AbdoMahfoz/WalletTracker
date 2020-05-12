@@ -38,6 +38,8 @@ class InsertSpendFragment : Fragment() {
     private lateinit var viewModel: SpendViewModel
     private var mapFrag: SupportMapFragment? = null
     private var markerPosition: LatLng = LatLng(0.0, 0.0)
+    private var locationRecorded: Boolean = false
+    private var mapsInitialized: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(
@@ -51,7 +53,18 @@ class InsertSpendFragment : Fragment() {
         handleDate()
         handleSubmit()
         mapFrag = childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
-        initMaps()
+        binding.recordLocationSwitch.setOnCheckedChangeListener{ _, value ->
+            if(value) {
+                locationRecorded = true
+                binding.mapFragment.visibility = View.VISIBLE
+                if(!mapsInitialized) {
+                    initMaps()
+                }
+            } else {
+                locationRecorded = false
+                binding.mapFragment.visibility = View.GONE
+            }
+        }
         return binding.root
     }
     private fun initMaps() {
@@ -67,7 +80,9 @@ class InsertSpendFragment : Fragment() {
                 5000
             )
         } else {
+            mapsInitialized = true
             mapFrag?.getMapAsync{
+                it.isMyLocationEnabled = true
                 it.isBuildingsEnabled = false
                 it.isIndoorEnabled = false
                 it.isTrafficEnabled = false
@@ -79,6 +94,7 @@ class InsertSpendFragment : Fragment() {
                     if(lastLocation != null) {
                         val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
                         markerPosition = latLng
+                        currentMarker?.remove()
                         currentMarker = addMarker(MarkerOptions().position(latLng))
                         moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                     }
@@ -154,8 +170,9 @@ class InsertSpendFragment : Fragment() {
                         binding.avgImportanceCheckBox.isChecked -> Important.AverageImportance
                         else -> Important.NotImportant
                     },
-                    latitude = markerPosition.latitude,
-                    longitude = markerPosition.longitude
+                    latitude = if (locationRecorded) markerPosition.latitude else 0.0,
+                    longitude = if (locationRecorded) markerPosition.longitude else 0.0,
+                    locationRecorded = this.locationRecorded
                 )
             )
             findNavController().popBackStack()

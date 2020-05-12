@@ -35,4 +35,5 @@
     <string name="new_password_hint">New password (unchanged)</string>
     <string name="new_email_hint">New email address (unchanged)</string>
     <string name="edit_account">Edit Account</string>
+    <string name="record_location">Record location</string>
 </resources>
