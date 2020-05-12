@@ -6,4 +6,5 @@ import com.abdomahfoz.wallettracker.entities.SpendEntity
 interface ISpendRepository{
     fun getHistory(): LiveData<List<SpendEntity>>
     fun insert(spend: SpendEntity)
+    fun update(spend: SpendEntity)
 }

@@ -16,4 +16,8 @@ class RoomSpendWrapper(context: Context) : ISpendRepository {
         spend.id = UUID.randomUUID().toString()
         db.insert(spend)
     }
+
+    override fun update(spend: SpendEntity) {
+        db.update(spend)
+    }
 }

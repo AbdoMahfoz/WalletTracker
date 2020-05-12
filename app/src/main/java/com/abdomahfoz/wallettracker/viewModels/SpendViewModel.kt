@@ -3,6 +3,7 @@ package com.abdomahfoz.wallettracker.viewModels
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.abdomahfoz.wallettracker.entities.SpendEntity
 import com.abdomahfoz.wallettracker.repository.ISpendRepository
 import com.abdomahfoz.wallettracker.ui.spend.SpendHistoryAdapterUtil
@@ -14,7 +15,12 @@ class SpendViewModel(application: Application) : KodeinCoroutineViewModel(applic
     private val repo by instance<ISpendRepository>()
     private val spendData = repo.getHistory()
     private val spendDataMediator = MediatorLiveData<List<SpendHistoryAdapterUtil.SpendHistoryData>>()
+    private val _updateEntity = MutableLiveData<SpendEntity>()
+
     val spendHistory: LiveData<List<SpendHistoryAdapterUtil.SpendHistoryData>> = spendDataMediator
+
+    val updateEntity: LiveData<SpendEntity> get() = _updateEntity
+    fun updateEntityCompleted() { _updateEntity.value = null }
 
     init {
         spendDataMediator.addSource(spendData) {
@@ -60,12 +66,17 @@ class SpendViewModel(application: Application) : KodeinCoroutineViewModel(applic
             }
         }
     }
-
-    fun insertNewSpend(spend: SpendEntity) {
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                repo.insert(spend)
-            }
+    fun handleItemClicked(spend: SpendEntity) {
+        _updateEntity.value = spend
+    }
+    fun insertNewSpend(spend: SpendEntity) = uiScope.launch {
+        withContext(Dispatchers.IO) {
+            repo.insert(spend)
+        }
+    }
+    fun updateSpend(spend: SpendEntity) = uiScope.launch {
+        withContext(Dispatchers.IO) {
+            repo.update(spend)
         }
     }
 }

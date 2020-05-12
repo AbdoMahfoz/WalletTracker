@@ -8,6 +8,8 @@ import com.abdomahfoz.wallettracker.entities.SpendEntity
 interface SpendDao {
     @Insert
     fun insert(spend : SpendEntity)
+    @Update
+    fun update(spend: SpendEntity)
     @Query("SELECT * FROM SpendEntity ORDER BY date DESC")
     fun getHistory() : LiveData<List<SpendEntity>>
 }

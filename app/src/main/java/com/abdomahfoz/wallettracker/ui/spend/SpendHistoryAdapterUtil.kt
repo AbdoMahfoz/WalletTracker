@@ -3,17 +3,20 @@ package com.abdomahfoz.wallettracker.ui.spend
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.abdomahfoz.wallettracker.R
 import com.abdomahfoz.wallettracker.entities.SpendEntity
 import com.abdomahfoz.wallettracker.databinding.SpendHistoryHeaderBinding
 import com.abdomahfoz.wallettracker.databinding.SpendHistoryItemBinding
 import com.abdomahfoz.wallettracker.databinding.SpendHistoryItemGoalBinding
 import com.abdomahfoz.wallettracker.entities.BaseEntity
-import com.github.abdomahfoz.genericrecycleradapter.GenericViewHolder
+import com.abdomahfoz.wallettracker.viewModels.SpendViewModel
+import com.github.abdomahfoz.genericrecycleradapter.ViewHolder
 import java.lang.Exception
 import java.util.*
 
-object SpendHistoryAdapterUtil{
+class SpendHistoryAdapterUtil(private val viewModel: SpendViewModel) {
     abstract class SpendHistoryData :
         BaseEntity {
         data class SpendEntityItem(val spendEntity: SpendEntity) : SpendHistoryData() {
@@ -22,25 +25,40 @@ object SpendHistoryAdapterUtil{
         data class HeaderItem(val header: Date, override val id: String, var sum : Double = 0.0) : SpendHistoryData()
         abstract override val id : String
     }
-    private fun createSpendHistoryViewHolder(parent : ViewGroup) : GenericViewHolder<SpendHistoryData> {
+    class SpendHistoryViewHolder(private val viewModel: SpendViewModel, private val binding: ViewDataBinding) :
+        RecyclerView.ViewHolder(binding.root), ViewHolder<SpendHistoryData> {
+        override fun bind(item: SpendHistoryData) {
+            when(binding){
+                is SpendHistoryItemBinding -> {
+                    binding.data = item as SpendHistoryData.SpendEntityItem?
+                    binding.card.setOnClickListener {
+                        viewModel.handleItemClicked(item.spendEntity)
+                    }
+                }
+                is SpendHistoryItemGoalBinding -> binding.data = item as SpendHistoryData.SpendEntityItem?
+                is SpendHistoryHeaderBinding -> binding.data = item as SpendHistoryData.HeaderItem?
+            }
+        }
+    }
+    private fun createSpendHistoryViewHolder(parent : ViewGroup) : SpendHistoryViewHolder {
         val binding: SpendHistoryItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), R.layout.spend_history_item, parent, false
         )
-        return GenericViewHolder(binding)
+        return SpendHistoryViewHolder(viewModel, binding)
     }
-    private fun createGoalViewHolder(parent : ViewGroup) : GenericViewHolder<SpendHistoryData>{
+    private fun createGoalViewHolder(parent : ViewGroup) : SpendHistoryViewHolder{
         val binding: SpendHistoryItemGoalBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), R.layout.spend_history_item_goal, parent, false
         )
-        return GenericViewHolder(binding)
+        return SpendHistoryViewHolder(viewModel, binding)
     }
-    private fun createHeaderViewHolder(parent : ViewGroup) : GenericViewHolder<SpendHistoryData>{
+    private fun createHeaderViewHolder(parent : ViewGroup) : SpendHistoryViewHolder{
         val binding: SpendHistoryHeaderBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), R.layout.spend_history_header, parent, false
         )
-        return GenericViewHolder(binding)
+        return SpendHistoryViewHolder(viewModel, binding)
     }
-    fun viewHolderFactory(container: ViewGroup, viewType: Int) : GenericViewHolder<SpendHistoryData> {
+    fun viewHolderFactory(container: ViewGroup, viewType: Int) : SpendHistoryViewHolder {
         return when(viewType){
             0 -> createSpendHistoryViewHolder(container)
             1 -> createGoalViewHolder(container)

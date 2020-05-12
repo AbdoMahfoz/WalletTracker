@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 
 import com.abdomahfoz.wallettracker.R
 import com.abdomahfoz.wallettracker.viewModels.ViewModelFactory
@@ -24,20 +25,25 @@ class SpendHistoryFragment : Fragment(), IFabConsumer {
             inflater, R.layout.fragment_spend_history, container, false
         )
         val viewModel = ViewModelFactory.of(this).get(SpendViewModel::class.java)
-        val adapter = GenericRecyclerAdapter(
-            SpendHistoryAdapterUtil::viewHolderFactory, SpendHistoryAdapterUtil::viewHolderType
-        )
+        val adapterUtil = SpendHistoryAdapterUtil(viewModel)
+        val adapter = GenericRecyclerAdapter(adapterUtil::viewHolderFactory, adapterUtil::viewHolderType)
         binding.recyclerView.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.spendHistory.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+        })
+        viewModel.updateEntity.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToInsertSpendFragment(it))
+                viewModel.updateEntityCompleted()
+            }
         })
         return binding.root
     }
     override fun setupFab(fab: FloatingActionButton, navController: NavController) {
         fab.show()
         fab.setOnClickListener {
-            navController.navigate(MainFragmentDirections.actionMainFragmentToInsertSpendFragment())
+            navController.navigate(MainFragmentDirections.actionMainFragmentToInsertSpendFragment(null))
         }
     }
 }

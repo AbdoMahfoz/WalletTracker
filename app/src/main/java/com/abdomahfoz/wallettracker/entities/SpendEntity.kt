@@ -1,9 +1,11 @@
 package com.abdomahfoz.wallettracker.entities
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Entity(foreignKeys = [ForeignKey(
@@ -12,6 +14,7 @@ import java.util.*
     childColumns = arrayOf("goalId"),
     onDelete = ForeignKey.CASCADE
 )])
+@Parcelize
 data class SpendEntity(
     @PrimaryKey
     override var id: String = "",
@@ -24,7 +27,7 @@ data class SpendEntity(
     var latitude: Double = 0.0,
     var longitude: Double = 0.0,
     var locationRecorded: Boolean = false
-) : BaseEntity {
+) : BaseEntity, Parcelable {
     enum class Important(val value: String) {
         VeryImportant("Very Important"),
         AverageImportance("Average Importance"),

@@ -42,4 +42,9 @@ class FBSpend : FB(), ISpendRepository {
             doc.set(spend).await()
         }
     }
+    override fun update(spend: SpendEntity) {
+        runBlocking {
+            db.collection("spends").document(spend.id).set(spend).await()
+        }
+    }
 }

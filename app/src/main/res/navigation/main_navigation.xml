@@ -16,7 +16,12 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" >
+            <argument
+                android:name="UpdateEntity"
+                app:argType="com.abdomahfoz.wallettracker.entities.SpendEntity"
+                app:nullable="true"/>
+        </action>
         <action
             android:id="@+id/action_mainFragment_to_newGoalFragment"
             app:destination="@id/newGoalFragment"
@@ -45,7 +50,13 @@
         android:id="@+id/insertSpendFragment"
         android:name="com.abdomahfoz.wallettracker.ui.spend.InsertSpendFragment"
         android:label="InsertSpendFragment"
-        tools:layout="@layout/fragment_insert_spend" />
+        tools:layout="@layout/fragment_insert_spend" >
+        <argument
+            android:name="UpdateEntity"
+            app:argType="com.abdomahfoz.wallettracker.entities.SpendEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/newGoalFragment"
         android:name="com.abdomahfoz.wallettracker.ui.goals.NewGoalFragment"
