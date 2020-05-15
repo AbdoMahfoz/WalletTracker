@@ -105,8 +105,8 @@ class GoalsWorker(context: Context, params : WorkerParameters) : CoroutineWorker
             .setInitialDelay(seconds, TimeUnit.SECONDS)
             .build()
         WorkManager.getInstance(applicationContext).enqueueUniqueWork(
-            GoalsWorker::class.simpleName!! + "2",
-            ExistingWorkPolicy.REPLACE,
+            GoalsWorker::class.simpleName!!,
+            ExistingWorkPolicy.APPEND,
             oneTimeRequest
         )
         return Result.success()
@@ -116,7 +116,7 @@ class GoalsWorker(context: Context, params : WorkerParameters) : CoroutineWorker
             val oneTimeRequest = OneTimeWorkRequestBuilder<GoalsWorker>().build()
             WorkManager.getInstance(applicationContext).enqueueUniqueWork(
                 GoalsWorker::class.simpleName!!,
-                ExistingWorkPolicy.REPLACE,
+                ExistingWorkPolicy.KEEP,
                 oneTimeRequest
             )
         }
